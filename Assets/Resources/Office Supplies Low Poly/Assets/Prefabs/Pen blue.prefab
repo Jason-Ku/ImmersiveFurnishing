@@ -167,7 +167,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4831472352568188}
-  - component: {fileID: 9035667997086378174}
+  - component: {fileID: 866021544994985319}
+  - component: {fileID: 6019074174702023898}
   m_Layer: 0
   m_Name: Pen blue
   m_TagString: Untagged
@@ -191,7 +192,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &9035667997086378174
+--- !u!54 &866021544994985319
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1597187340103502}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &6019074174702023898
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -202,5 +219,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.018419504, y: 0.022572279, z: 0.39420027}
-  m_Center: {x: -0.0013293028, y: -0.0017405748, z: 0.045318514}
+  m_Size: {x: 0.025043488, y: 0.018143356, z: 0.37968573}
+  m_Center: {x: 0.001992464, y: -0.00045278668, z: 0.046618506}

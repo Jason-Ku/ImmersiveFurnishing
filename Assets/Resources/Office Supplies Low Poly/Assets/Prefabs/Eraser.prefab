@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 4330883126242722}
   - component: {fileID: 33692027382847910}
   - component: {fileID: 23639517090784512}
-  - component: {fileID: 1991046833142727895}
+  - component: {fileID: -923442493572596410}
+  - component: {fileID: 4951900984798019519}
   m_Layer: 0
   m_Name: Eraser
   m_TagString: Untagged
@@ -80,7 +81,23 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &1991046833142727895
+--- !u!54 &-923442493572596410
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418257620791840}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &4951900984798019519
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
