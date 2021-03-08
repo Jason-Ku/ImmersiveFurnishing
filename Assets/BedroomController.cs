@@ -19,7 +19,7 @@ public class BedroomController : MonoBehaviour
         objController.transform.position = this.transform.position;
         objController.AddComponent<ObjSpawner>();
         ObjSpawner objSpawner = objController.GetComponent<ObjSpawner>();
-        objSpawner.init(8, 8, 2);
+        objSpawner.init(xDim, zDim, gridFactor);
 
         // Populate bedroom with basic furniture
         // Pick a bed
