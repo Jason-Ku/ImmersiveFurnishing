@@ -117,16 +117,7 @@ public class ObjSpawner : MonoBehaviour
     }
 
 
-    /**
-     * Spawn a cube with the specified size in an available spot in the grid,
-     * if possible. Returns the spawned GameObject Cube if it was spawned successfully,
-     * or null if unsuccessful.
-     * 
-     * size: Size of the object to spawn in grid units
-     * scoreParams: Scoring parameters for object placement
-     * dropFactor: How high to drop the object from in physics sim
-     */
-    public GameObject SpawnObj(GameObject resource, Vector3 size, Vector3 rot, ScoreParams scoreParams, float dropFactor)
+    private List<(int, int, float)> getAvailableSpots(Vector3 size, ScoreParams scoreParams)
     {
         // Find open spot to spawn cube
         List<(int, int, float)> spots = new List<(int, int, float)>();
@@ -144,9 +135,102 @@ public class ObjSpawner : MonoBehaviour
             Debug.Log("No spots left!");
             return null;
         }
+        return spots;
+    }
+
+
+    /**
+     * Spawn a cube with the specified size in an available spot in the grid,
+     * if possible. Returns the spawned GameObject Cube if it was spawned successfully,
+     * or null if unsuccessful.
+     * 
+     * size: Size of the object to spawn in grid units
+     * scoreParams: Scoring parameters for object placement
+     * dropFactor: How high to drop the object from in physics sim
+     */
+    public GameObject SpawnObj(GameObject resource, Vector3 size, Vector3 rot, ScoreParams scoreParams, float dropFactor)
+    {
+        // Find open spot to spawn cube
+        List<(int, int, float)> spots = getAvailableSpots(size, scoreParams);
+        if (spots == null)
+        {
+            return null;
+        }
 
         // Pick a spot, taking into account wall score if necessary
         (int, int) spot = PickSpot(spots, size);
+        float xPos = this.transform.position.x + ((spot.Item1 / this.gridFactor) + (size.x / (2.0f * this.gridFactor)));
+        float zPos = this.transform.position.z + ((spot.Item2 / this.gridFactor) + (size.z / (2.0f * this.gridFactor)));
+
+        // Spawn a placeholder cube to help with resizing
+        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        cube.transform.localScale = size / this.gridFactor;
+        cube.GetComponent<Renderer>().enabled = false;
+        Vector3 cubeSize = cube.GetComponent<Renderer>().bounds.size;
+        Destroy(cube);
+
+        // Spawn new object at right place and with correct rotation
+        Vector3 spawnCoords = new Vector3(xPos, this.transform.position.y + (resource.GetComponent<Rigidbody>() == null ? 0.0f : dropFactor), zPos);
+        GameObject instantiatedObj = Instantiate(resource, spawnCoords, Quaternion.Euler(rot));
+
+        Vector3 objSize = instantiatedObj.GetComponent<BoxCollider>().bounds.size;
+
+        // Fix weird scaling issue if the object was rotated around y axis
+        if (rot.y % 180.0f != 0)
+            instantiatedObj.transform.localScale = new Vector3(cubeSize.z / objSize.z, cubeSize.y / objSize.y, cubeSize.x / objSize.x);
+        else
+            instantiatedObj.transform.localScale = new Vector3(cubeSize.x / objSize.x, cubeSize.y / objSize.y, cubeSize.z / objSize.z);
+
+        return instantiatedObj;
+    }
+
+
+    /* UNTESTED
+     * Converts a worldSpace point to grid space, ignoring Y values.
+     * 
+     * worldSpace: Vector3 of the point in world space
+     */
+    private Vector2 worldSpaceToGridSpace(Vector3 worldSpace)
+    {
+        Vector3 relativePosition = worldSpace - transform.position;
+        int xPos = Mathf.FloorToInt(relativePosition.x * this.gridFactor);
+        int yPos = Mathf.FloorToInt(relativePosition.y * this.gridFactor);
+        return new Vector2(xPos, yPos);
+    }
+
+    /** UNTESTED
+     * Spawn a cube with the specified size near a specified spot in the grid,
+     * if possible. Returns the spawned GameObject Cube if it was spawned successfully,
+     * or null if unsuccessful.
+     * 
+     * This is useful for things like coffee tables which almost always are placed relative to something else
+     * 
+     * size: Size of the object to spawn in grid units
+     * scoreParams: Scoring parameters for object placement
+     * dropFactor: How high to drop the object from in physics sim
+     * location: Where we want to spawn the object near
+     */
+    public GameObject SpawnObjNearLocation(GameObject resource, Vector3 size, Vector3 rot, ScoreParams scoreParams, float dropFactor, Vector3 location, float maxDistance = 2.0f)
+    {
+        // Find open spot to spawn cube
+        List<(int, int, float)> spots = getAvailableSpots(size, scoreParams);
+        if (spots == null)
+        {
+            return null;
+        }
+
+        // valid spots are close enough to the target location
+        List<(int, int, float)> validSpots = new List<(int, int, float)>();
+        Vector2 target = worldSpaceToGridSpace(location);
+        foreach ((int, int, float) spotI in spots)
+        {
+            Vector2 spotVect = new Vector2(spotI.Item1, spotI.Item2);
+            if (Vector2.Distance(spotVect, target) <= maxDistance)
+            {
+                validSpots.Add(spotI);
+            }
+        }
+        (int, int) spot = PickSpot(validSpots, size);
         float xPos = this.transform.position.x + ((spot.Item1 / this.gridFactor) + (size.x / (2.0f * this.gridFactor)));
         float zPos = this.transform.position.z + ((spot.Item2 / this.gridFactor) + (size.z / (2.0f * this.gridFactor)));
 

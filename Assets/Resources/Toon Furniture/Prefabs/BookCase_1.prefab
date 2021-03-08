@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 422290}
   - component: {fileID: 3337878}
   - component: {fileID: 2374246}
+  - component: {fileID: 2840325448502350827}
   m_Layer: 0
   m_Name: BookCase_1
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 197846}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071067}
   m_LocalPosition: {x: -0.38984013, y: -0.011, z: -1.976}
-  m_LocalScale: {x: 50.24983, y: 50.249836, z: 50.249836}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -79,3 +80,16 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &2840325448502350827
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 197846}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.037239213, y: 0.013127159, z: 0.07885329}
+  m_Center: {x: 0, y: -0.0000000018626449, z: 0.039426643}
