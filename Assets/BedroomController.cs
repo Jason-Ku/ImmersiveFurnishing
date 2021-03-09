@@ -28,13 +28,13 @@ public class BedroomController : MonoBehaviour
         {
             GameObject bed = Resources.Load("Toon Furniture/Prefabs/Single_Bed_1") as GameObject;
             ScoreParams bedScoreParams = new ScoreParams(wallScore: 1, groupScore: -1, spread: 0.0f, messiness: 0.0f);
-            objSpawner.SpawnObj(bed, new Vector3(6.0f, 2.0f, 3.0f), new Vector3(0.0f, 90.0f, 0.0f), bedScoreParams, dropFactor: 0.01f);
+            objSpawner.SpawnObj(bed, new Vector3(6.0f, 2.0f, 3.0f), new Vector3(0.0f, 90.0f, 0.0f), bedScoreParams, axis: "x", dropFactor: 0.01f);
         }
         else
         {
             GameObject bed = Resources.Load("Toon Furniture/Prefabs/Queen_Bed_2") as GameObject;
             ScoreParams bedScoreParams = new ScoreParams(wallScore: 1, groupScore: -1, spread: 0.0f, messiness: 0.0f);
-            objSpawner.SpawnObj(bed, new Vector3(4.0f, 2.0f, 2.0f), new Vector3(0.0f, 90.0f, 0.0f), bedScoreParams, dropFactor: 0.01f);
+            objSpawner.SpawnObj(bed, new Vector3(4.0f, 2.0f, 2.0f), new Vector3(0.0f, 90.0f, 0.0f), bedScoreParams, axis: "x", dropFactor: 0.01f);
         }
 
         // Pick a desk

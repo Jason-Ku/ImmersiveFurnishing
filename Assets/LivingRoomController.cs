@@ -18,16 +18,16 @@ public class LivingRoomController : RoomController
         {
             case 1:
                 couch = Resources.Load("Toon Furniture/Prefabs/Couch_1") as GameObject;
-                objSpawner.SpawnObj(couch, new Vector3(2f, 2f, 5f), new Vector3(-90.0f, 90.0f, 0.0f), couchScoreParams, dropFactor: 0.01f);
+                objSpawner.SpawnObj(couch, new Vector3(2f, 2f, 5f), new Vector3(-90.0f, 90.0f, 0.0f), couchScoreParams, axis: "x", dropFactor: 0.01f);
                 break;
             case 2:
                 // L shaped couch
                 couch = Resources.Load("Toon Furniture/Prefabs/Couch_2") as GameObject;
-                objSpawner.SpawnObj(couch, new Vector3(2f, 2f, 5f), new Vector3(-90.0f, 90.0f, 0.0f), couchScoreParams, dropFactor: 0.01f);
+                objSpawner.SpawnObj(couch, new Vector3(2f, 2f, 5f), new Vector3(-90.0f, 90.0f, 0.0f), couchScoreParams, axis: "x", dropFactor: 0.01f);
                 break;
             case 3:
                 couch = Resources.Load("Toon Furniture/Prefabs/Couch_3") as GameObject;
-                objSpawner.SpawnObj(couch, new Vector3(2f, 2f, 5f), new Vector3(-90.0f, 90.0f, 0.0f), couchScoreParams, dropFactor: 0.01f);
+                objSpawner.SpawnObj(couch, new Vector3(2f, 2f, 5f), new Vector3(-90.0f, 90.0f, 0.0f), couchScoreParams, axis: "x", dropFactor: 0.01f);
                 break;
         }
         //TODO: Rotate the couch so it faces the center of the room

@@ -138,6 +138,39 @@ public class ObjSpawner : MonoBehaviour
         return spots;
     }
 
+    /**
+     * Return a boolean to determine whether to rotate an object 180 degrees based on
+     * where it is located in the room. (wallAlign string is typically the longer edge)
+     * The axis parameter determines what axis we will look at to determine whether we
+     * need to flip the object.
+     * 
+     * axis: string that is "x" or "z" (perhaps there is a better system than this. THis will do for now)
+     *       Can also specify something other than x or z (like an empty string) for no flipping preference
+     * x: x coordinate of object in world units
+     * z: z coordinate of object in world units
+     */
+    public bool BackToWall(string axis, float x, float z)
+    {
+        if (axis == "x")
+            return x > this.transform.position.z + (this.xDim * 0.5f / this.gridFactor);
+        else if (axis == "z")
+            return z > this.transform.position.x + (this.zDim * 0.5f / this.gridFactor);
+        else
+        {
+            Debug.Log("Invalid axis or none specified");
+            return false;
+        }
+    }
+
+
+    /**
+     * Same as below, except without an axis specified.
+     */
+    public GameObject SpawnObj(GameObject resource, Vector3 size, Vector3 rot, ScoreParams scoreParams, float dropFactor)
+    {
+        return SpawnObj(resource, size, rot, scoreParams, "", dropFactor);
+    }
+
 
     /**
      * Spawn a cube with the specified size in an available spot in the grid,
@@ -146,9 +179,10 @@ public class ObjSpawner : MonoBehaviour
      * 
      * size: Size of the object to spawn in grid units
      * scoreParams: Scoring parameters for object placement
+     * axis: Axis to check for flipping object to face center
      * dropFactor: How high to drop the object from in physics sim
      */
-    public GameObject SpawnObj(GameObject resource, Vector3 size, Vector3 rot, ScoreParams scoreParams, float dropFactor)
+    public GameObject SpawnObj(GameObject resource, Vector3 size, Vector3 rot, ScoreParams scoreParams, string axis, float dropFactor)
     {
         // Find open spot to spawn cube
         List<(int, int, float)> spots = getAvailableSpots(size, scoreParams);
@@ -172,7 +206,6 @@ public class ObjSpawner : MonoBehaviour
         // Spawn new object at right place and with correct rotation
         Vector3 spawnCoords = new Vector3(xPos, this.transform.position.y + (resource.GetComponent<Rigidbody>() == null ? 0.0f : dropFactor), zPos);
         GameObject instantiatedObj = Instantiate(resource, spawnCoords, Quaternion.Euler(rot));
-
         Vector3 objSize = instantiatedObj.GetComponent<BoxCollider>().bounds.size;
 
         // Fix weird scaling issue if the object was rotated around y axis
@@ -180,6 +213,10 @@ public class ObjSpawner : MonoBehaviour
             instantiatedObj.transform.localScale = new Vector3(cubeSize.z / objSize.z, cubeSize.y / objSize.y, cubeSize.x / objSize.x);
         else
             instantiatedObj.transform.localScale = new Vector3(cubeSize.x / objSize.x, cubeSize.y / objSize.y, cubeSize.z / objSize.z);
+
+        // Flip object so its back is to the wall, if necessary
+        if (BackToWall(axis, xPos, zPos))
+            instantiatedObj.transform.RotateAround(instantiatedObj.transform.position, Vector3.up, 180.0f);
 
         return instantiatedObj;
     }
@@ -197,6 +234,7 @@ public class ObjSpawner : MonoBehaviour
         int yPos = Mathf.FloorToInt(relativePosition.y * this.gridFactor);
         return new Vector2(xPos, yPos);
     }
+
 
     /** UNTESTED
      * Spawn a cube with the specified size near a specified spot in the grid,
