@@ -151,10 +151,17 @@ public class ObjSpawner : MonoBehaviour
      */
     public bool BackToWall(string axis, float x, float z)
     {
+
         if (axis == "x")
-            return x > this.transform.position.z + (this.xDim * 0.5f / this.gridFactor);
+        {
+            Debug.Log(string.Format("x:{0}, z{1}", x, z));
+            return x > this.transform.position.x + (this.xDim * 0.5f / this.gridFactor);
+        }
         else if (axis == "z")
-            return z > this.transform.position.x + (this.zDim * 0.5f / this.gridFactor);
+        {
+            Debug.Log(string.Format("x:{0}, z{1}", x, z));
+            return z > this.transform.position.z + (this.zDim * 0.5f / this.gridFactor);
+        }
         else
         {
             Debug.Log("Invalid axis or none specified");
